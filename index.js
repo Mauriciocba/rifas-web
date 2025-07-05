@@ -142,42 +142,56 @@ function showAlert(message, type) {
 
 // 🧹 Reiniciar rifa (borrar Firebase)
 async function resetRifa() {
-  if (confirm('¿Estás seguro de que quieres reiniciar la rifa? Se perderán todos los datos.')) {
+  const confirmDelete = confirm('¿Estás seguro de que quieres reiniciar la rifa? Se perderán todos los datos.');
+  if (!confirmDelete) return;
+
+  const code = prompt('Para confirmar el reinicio, escribe el código secreto:');
+  if (code !== '1994') {
+    showAlert('Código incorrecto. Acción cancelada.', 'error');
+    return;
+  }
+
+  try {
     const querySnapshot = await getDocs(collection(db, "rifa"));
     const deletePromises = [];
     querySnapshot.forEach(docSnap => {
       deletePromises.push(deleteDoc(doc(db, "rifa", docSnap.id)));
     });
     await Promise.all(deletePromises);
+
     rifaData = {};
     selectedNumber = null;
     createGrid();
     updateStats();
     showAlert('Rifa reiniciada exitosamente', 'success');
+  } catch (error) {
+    showAlert('Error al reiniciar la rifa. Intenta nuevamente.', 'error');
+    console.error(error);
   }
 }
 
-// 💾 Exportar TXT
-function exportDataTXT() {
-  const data = {
-    rifaData,
-    stats: {
-      soldCount: Object.keys(rifaData).length,
-      availableCount: 100 - Object.keys(rifaData).length,
-      totalAmount: Object.keys(rifaData).length * PRICE_PER_NUMBER
-    },
-    exportDate: new Date().toISOString()
-  };
 
-  const dataStr = JSON.stringify(data, null, 2);
-  const dataBlob = new Blob([dataStr], { type: 'application/json' });
-  const url = URL.createObjectURL(dataBlob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `rifa_data_${new Date().toISOString().split('T')[0]}.json`;
-  link.click();
-  URL.revokeObjectURL(url);
-}
+// // 💾 Exportar TXT
+// function exportDataTXT() {
+//   const data = {
+//     rifaData,
+//     stats: {
+//       soldCount: Object.keys(rifaData).length,
+//       availableCount: 100 - Object.keys(rifaData).length,
+//       totalAmount: Object.keys(rifaData).length * PRICE_PER_NUMBER
+//     },
+//     exportDate: new Date().toISOString()
+//   };
+
+//   const dataStr = JSON.stringify(data, null, 2);
+//   const dataBlob = new Blob([dataStr], { type: 'application/json' });
+//   const url = URL.createObjectURL(dataBlob);
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.download = `rifa_data_${new Date().toISOString().split('T')[0]}.json`;
+//   link.click();
+//   URL.revokeObjectURL(url);
+// }
 
 // 📄 Exportar PDF
 async function exportDataAsPdf() {
