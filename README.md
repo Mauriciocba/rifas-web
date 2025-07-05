@@ -8,9 +8,7 @@ Una aplicación web simple para gestionar una rifa del 0 al 99 con integración 
 - Registro de comprador con nombre y apellido.
 - Estado de cada número (disponible o vendido).
 - Estadísticas automáticas: números vendidos, disponibles y total recaudado.
-- Exportación de datos en `.json` o `.pdf`.
-- Edición de un número ya vendido.
-- Liberación (anulación) de un número ya vendido.
+- Exportación de datos en `.txt` o `.pdf`.
 - Sin necesidad de login o autenticación.
 
 ## 🧰 Tecnologías
