@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa - Números del 0 al 99</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> Rifa Web </h1>
+            <p>Números del 0 al 99 - $3.000 cada número</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Números Vendidos</h3>
+                <div class="number" id="sold-count">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Números Disponibles</h3>
+                <div class="number" id="available-count">100</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Recaudado</h3>
+                <div class="number" id="total-amount">$0</div>
+            </div>
+        </div>
+
+        <div id="alert" class="alert hidden"></div>
+
+        <div class="form-section">
+            <h2>Seleccionar Número</h2>
+            <div class="form-group">
+                <input type="number" id="number-input" placeholder="Número (0-99)" min="0" max="99">
+                <input type="text" id="name-input" placeholder="Nombre">
+                <input type="text" id="lastname-input" placeholder="Apellido">
+            </div>
+            <button class="btn" onclick="sellNumber()">Vender Número</button>
+        </div>
+
+        <div class="grid" id="numbers-grid"></div>
+
+        <div class="actions">
+            <button class="btn btn-reset" onclick="resetRifa()">Reiniciar Rifa</button>
+            <button class="btn" onclick="exportDataTXT()">Exportar TXT</button>
+            <button class="btn" onclick="exportDataAsPdf()">Exportar PDF</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
